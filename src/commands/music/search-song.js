@@ -45,7 +45,9 @@ module.exports = {
             })
         }
 
-        if(query) songModal.find({ "song_info.song_name": query}, (err, data) => execute(err, data));
-        else songModal.find({  }, (err, data) => execute(err, data));
+        if(query) songModal.find({ "song_info.song_name": query},
+            (err, data) => execute(err, data));
+        else songModal.find({  },
+            (err, data) => execute(err, data));
     }
 }

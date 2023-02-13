@@ -1,4 +1,3 @@
-const e = require("express");
 const fs = require("node:fs");
 
 module.exports = (client) => {

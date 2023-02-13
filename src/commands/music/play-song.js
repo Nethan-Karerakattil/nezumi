@@ -1,5 +1,5 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { createAudioPlayer, createAudioResource, joinVoiceChannel, AudioPlayerStatus } = require("@discordjs/voice");
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require("@discordjs/voice");
+const { SlashCommandBuilder } = require("discord.js");
 const songModal = require("../../modals/song");
 
 module.exports = {
@@ -9,49 +9,75 @@ module.exports = {
 
         .addStringOption(option => option
             .setName("id")
-            .setDescription("The ID of the song you want to play")
-            .setRequired(true)),
+            .setDescription("The ID of the video you want to play")),
 
     async execute(interaction, client){
         const id = interaction.options.getString("id");
+        const player = createAudioPlayer()
 
-        songModal.findOne({ _id: id }, async (err, data) => {
-            if(err) return await interaction.reply({
-                embeds: [
-                    new EmbedBuilder()
-                        .setTitle("Something went wrong")
-                        .setDescription("Something went wrong when trying to retrive the data")
-                        .setColor(0xff0000)
-                ]
-            })
+        let connection;
+        let queue;
+
+        songModal.exists({ _id: id }, (err, data) => {
+            if(err) return console.error(err)
+            if(!data) return console.error("404: ID does not exist in the db")
+
+            queue = client.queues.get(interaction.guild.id);
+            if(!queue) client.queues.set(interaction.guild.id, [id]);
+            else {
+                queue.push(id)
+                client.queues.set(interaction.guild.id, queue);
+            }
+
+            if(!interaction.guild.members.me.voice.channel) connect();
+        })
+
+        player.on(AudioPlayerStatus.Idle, () => {
+            console.log("Subscribing new song...")
+
+            queue = client.queues.get(interaction.guild.id);
+            queue.shift();
+
+            if(queue.length == 0){
+                connection.destroy();
+                client.queues.delete(interaction.guild.id);
+                return console.log("Queue was over, so I destroyed the connection");
+            }
+
+            play(queue[0]);
+        })
+
+        function connect(){
+            console.log("Reached connect function")
 
             const voiceChannel = interaction.member.voice.channel;
-            if(!voiceChannel) return;
+            if(!voiceChannel){
+                client.queues.delete(interaction.guild.id);
+                console.log("401: No Voice Channel detected")
+            }
 
-            const player = createAudioPlayer();
-            const resource = createAudioResource(`./songs/${data.id}.${data.song_info.ext}`)
-
-            const connection = joinVoiceChannel({
+            connection = joinVoiceChannel({
                 channelId: voiceChannel.id,
                 guildId: interaction.guild.id,
                 adapterCreator: interaction.guild.voiceAdapterCreator
             })
 
-            player.play(resource)
-            connection.subscribe(player)
+            queue = client.queues.get(interaction.guild.id)
+            play(queue[0])
+        }
 
-            await interaction.reply({
-                embeds: [
-                    new EmbedBuilder()
-                        .setTitle(`Now playing: ${data.song_info.song_name}`)
-                        .setColor(0x1DB954)
-                ]
-            })
+        function play(song){
+            console.log("Reached play function")
+            songModal.findOne({ _id: song }, (err, data) => {
+                if(err) return console.log(err);
+                if(!data) return console.log(data)
 
-            // Events
-            player.on(AudioPlayerStatus.Idle, () => {
-                connection.destroy();
+                const resource = createAudioResource(`./songs/${data.id}.${data.song_info.ext}`)
+                player.play(resource);
+                connection.subscribe(player);
+    
+                console.log(`Now Playing: ${data.song_info.song_name}`);  
             })
-        })
+        }
     }
 }

@@ -1,7 +1,7 @@
-const { EmbedBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, Events } = require("discord.js");
 
 module.exports = {
-    name: "interactionCreate",
+    name: Events.InteractionCreate,
 
     async execute(interaction, client){
         if(interaction.isChatInputCommand()){
