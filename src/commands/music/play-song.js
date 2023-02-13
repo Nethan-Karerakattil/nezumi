@@ -13,7 +13,7 @@ module.exports = {
 
     async execute(interaction, client){
         const id = interaction.options.getString("id");
-        const player = createAudioPlayer()
+        const player = createAudioPlayer();
 
         let connection;
         let queue;

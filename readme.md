@@ -1,0 +1,2 @@
+# Nezumi
+The goal of Nezumi Bot is to create a bot that replaces groovy and rythm. When groovy and rythm were forced to shut down, I and alot of other people felt heart broken. I then got the idea that I could make my own music bot which does not scrap music from anywhere. Like discord's very own music platform! The vision I have for this bot is that one day it will become a bot that has all of the features that every other big music app. Feel free to contribute to this bot if you know how to create discord bots with discord.js v14!
