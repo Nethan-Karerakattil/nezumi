@@ -19,6 +19,7 @@ module.exports = {
                         new EmbedBuilder()
                             .setTitle("Something went wrong")
                             .setDescription("Something went wrong when trying to execute this command")
+                            .setColor(0xff0000)
                     ]
                 })
             }

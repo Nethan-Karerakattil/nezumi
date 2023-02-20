@@ -23,7 +23,7 @@ module.exports = {
         const file = interaction.options.get("song-file").attachment;
         const songName = interaction.options.getString("song-name");
 
-        const allowedFiles = ["audio/mpeg"]
+        const allowedFiles = ["audio/mpeg", "audio/mp3", "audio/wav"]
         if(!allowedFiles.includes(file.contentType))
             return interaction.reply({
                 embeds: [
