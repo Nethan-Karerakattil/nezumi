@@ -104,7 +104,7 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setTitle(`Now playing: ${song.song_info.song_name}`)
-                        .setColor(0x1DB954)
+                        .setColor(0x7289da)
                 ]
             })
         }

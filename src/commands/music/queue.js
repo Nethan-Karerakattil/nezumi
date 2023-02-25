@@ -23,7 +23,7 @@ module.exports = {
                 new EmbedBuilder()
                     .setTitle("Current Queue:-")
                     .addFields(message)
-                    .setColor(0x1DB954)
+                    .setColor(0x7289da)
             ]
         })
     }
