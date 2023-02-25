@@ -13,7 +13,7 @@ module.exports = {
     async execute(interaction, client){
         const query = interaction.options.getString("song-name");
 
-        const execute = async (err, data) => {
+        async function execute (err, data) {
             if(err) {
                 console.log(err);
 
@@ -31,7 +31,7 @@ module.exports = {
             for(let i = 0; i < data.length; i++){
                 results.push({
                     name: `#${i + 1} | ${data[i].song_info.song_name}`,
-                    value: `    By: ${data[i].creator_info.creator_name} | ID: ${data[i]._id}`
+                    value: `Uploaded By: ${data[i].creator_info.creator_name} | ID: ${data[i]._id}`
                 })
             }
 

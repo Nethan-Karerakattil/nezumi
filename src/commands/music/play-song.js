@@ -19,7 +19,7 @@ module.exports = {
         let connection;
         let queue;
 
-        songModal.exists({ _id: id }, async (err, data) => {
+        songModal.findOne({ _id: id }, async (err, data) => {
             if(err) return handleError(err);
             if(!data) return await interaction.reply({
                 embeds: [
@@ -32,10 +32,10 @@ module.exports = {
 
             queue = client.queues.get(interaction.guild.id);
             if(!queue) {
-                client.queues.set(interaction.guild.id, [id]);
+                client.queues.set(interaction.guild.id, [data]);
             }
             else {
-                queue.push(id)
+                queue.push(data)
                 client.queues.set(interaction.guild.id, queue);
             }
             
@@ -46,7 +46,7 @@ module.exports = {
                         .setColor(0x1DB954)
                 ]
             })
-                        
+
             if(!interaction.guild.members.me.voice.channel) connect();
         })
 
@@ -62,7 +62,7 @@ module.exports = {
                     embeds: [
                         new EmbedBuilder()
                             .setTitle("The queue ended.")
-                            .setDescription("The queue ended so I left the Voice Channel.")
+                            .setDescription("The queue ended so I left the Voice Channel. If you wish to listen to more music, use the play command again!")
                             .setColor(0x1DB954)
                     ]
                 })
@@ -95,22 +95,17 @@ module.exports = {
             play(queue[0])
         }
 
-        function play(song){
-            songModal.findOne({ _id: song }, async (err, data) => {
-                if(err) return console.log(err);
-                if(!data) return console.log(data)
-
-                const resource = createAudioResource(`./songs/${data.id}.${data.song_info.ext}`)
-                player.play(resource);
-                connection.subscribe(player);
+        async function play(song){
+            const resource = createAudioResource(`./songs/${song.id}.${song.song_info.ext}`)
+            player.play(resource);
+            connection.subscribe(player);
     
-                await interaction.channel.send({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setTitle(`Now playing: ${data.song_info.song_name}`)
-                            .setColor(0x1DB954)
-                    ]
-                })
+            await interaction.channel.send({
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle(`Now playing: ${song.song_info.song_name}`)
+                        .setColor(0x1DB954)
+                ]
             })
         }
 
