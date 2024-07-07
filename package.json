@@ -1,0 +1,24 @@
+{
+  "name": "open-bot",
+  "version": "1.0.0",
+  "description": "An open source discord bot",
+  "main": "./dist/main.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "ts-node ./src/main.ts",
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "Nethan Karerakattil",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.15.2",
+    "dotenv": "^16.4.5",
+    "mongoose": "^8.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
