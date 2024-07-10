@@ -5,7 +5,7 @@ export default {
         .setName("help")
         .setDescription("Shows you the help menu"),
 
-    execute: async (interaction: ChatInputCommandInteraction<"cached">, client: Client) => {
+    execute: async (interaction: ChatInputCommandInteraction<"cached">, client: Client): Promise<void> => {
 
         let menu = "";
         for(const [key, value] of client.commands){
