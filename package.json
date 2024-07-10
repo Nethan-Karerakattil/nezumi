@@ -8,12 +8,14 @@
   },
   "scripts": {
     "dev": "ts-node ./src/main.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "run-build": "node ./build/main.js"
   },
   "keywords": [],
   "author": "Nethan Karerakattil",
   "license": "ISC",
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.53",
     "discord.js": "^14.15.2",
     "dotenv": "^16.4.5",
     "mongoose": "^8.4.0"

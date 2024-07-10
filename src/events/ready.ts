@@ -1,4 +1,4 @@
-import { ActivityType, Client, Events, Interaction } from "discord.js"
+import { ActivityType, Client, Events, PresenceUpdateStatus } from "discord.js"
 
 export default {
     name: Events.ClientReady,
@@ -11,7 +11,7 @@ export default {
                 type: ActivityType.Watching
             }],
 
-            status: "dnd"
+            status: PresenceUpdateStatus.DoNotDisturb
         })
 
         console.log("Bot online");

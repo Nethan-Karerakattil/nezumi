@@ -1,6 +1,7 @@
 import "dotenv/config.js";
-import { Client, GatewayIntentBits, Collection, REST } from "discord.js";
+import { Client, GatewayIntentBits, Collection, REST, Routes } from "discord.js";
 import fs from "node:fs";
+import config from "../config.json"
 
 declare module "discord.js" {
     interface Client {
@@ -18,6 +19,10 @@ const client = new Client({intents: [
 client.commands = new Collection();
 client.buttons = new Collection();
 
+if(!process.env.TOKEN){
+    throw new Error("No token provided");
+}
+
 (async () => {
     let commandArr = [];
 
@@ -32,7 +37,16 @@ client.buttons = new Collection();
         }
     }
 
-    const rest = new REST({ version: "10" }).setToken(process.env.TOKEN!);
+    const rest = new REST().setToken(process.env.TOKEN!);
+
+    try {
+        const data = await rest.put(
+            Routes.applicationGuildCommands(config.clientId, config.guildId),
+            { body: commandArr }
+        )
+    } catch(err){
+        console.error(err);
+    }
 
     const eventFiles = fs.readdirSync(`${__dirname}/events`);
     for(const file of eventFiles){
