@@ -26,31 +26,37 @@ export default {
             .setName("delete-messages-days")
             .setDescription("Number of days of messages to delete (Optional and must be between 0-7)")),
 
-    async execute(interaction: ChatInputCommandInteraction<'cached'>, client: Client) {
+    execute: async (interaction: ChatInputCommandInteraction<"cached">, client: Client): Promise<void> => {
         const target_user = interaction.options.getUser("target")!;
         const target_member = interaction.options.getMember("target")!;
         const reason = interaction.options.getString("reason") ?? "Not Provided";
         const delete_msgs_days = interaction.options.getInteger("delete-messages-days");
 
-        console.log(target_member, target_user);
+        if(!target_member.bannable){
+            await interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle("Unable to ban")
+                        .setDescription("I do not have the required permissions to ban a member")
+                        .setColor(0xdf2c14)
+                ]
+            });
 
-        if(!target_member.bannable) return await interaction.reply({
-            embeds: [
-                new EmbedBuilder()
-                    .setTitle("Unable to ban")
-                    .setDescription("I do not have the required permissions to ban a member")
-                    .setColor(0xdf2c14)
-            ]
-        });
+            return;
+        }
 
-        if(target_user.id === interaction.member.id) return await interaction.reply({
-            embeds: [
-                new EmbedBuilder()
-                    .setTitle("Unable to ban")
-                    .setDescription("You can't ban yourself silly!")
-                    .setColor(0xdf2c14)
-            ]
-        });
+        if(target_user.id === interaction.member.id){
+            await interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle("Unable to ban")
+                        .setDescription("You can't ban yourself silly!")
+                        .setColor(0xdf2c14)
+                ]
+            });
+
+            return;
+        }
 
         await target_user.send({
             embeds: [
@@ -64,6 +70,16 @@ export default {
             ]
         });
 
+        if(!delete_msgs_days){
+            await target_member.ban({ reason: reason });
+            return;
+        }
+
+        await target_member.ban({
+            reason: reason,
+            deleteMessageSeconds: 60 * 60 * 7 * delete_msgs_days
+        });
+
         await interaction.reply({
             embeds: [
                 new EmbedBuilder()
@@ -75,16 +91,6 @@ export default {
                     `)
                     .setColor(0x3ded97)
             ]
-        });
-
-        if(!delete_msgs_days){
-            target_member.ban({ reason: reason });
-            return;
-        }
-
-        target_member.ban({
-            reason: reason,
-            deleteMessageSeconds: 60 * 60 * 7 * delete_msgs_days
         });
     }
 }

@@ -1,9 +1,9 @@
 import {
-    SlashCommandBuilder,
-    ChatInputCommandInteraction,
+    type ChatInputCommandInteraction,
+    type Client,
     PermissionsBitField,
+    SlashCommandBuilder,
     EmbedBuilder,
-    Client
 } from "discord.js";
 
 export default {
@@ -16,22 +16,26 @@ export default {
             .setDescription("User ID of the banned user")
             .setRequired(true)),
 
-    async execute(interaction: ChatInputCommandInteraction<'cached'>, client: Client){
+    execute: async (interaction: ChatInputCommandInteraction<"cached">, client: Client): Promise<void> => {
         const target_id = interaction.options.getString("user-id")!;
         const ban_list = await interaction.guild.bans.fetch();
         const target = ban_list.find(ban => ban.user.id === target_id);
 
-        if(!target) return await interaction.reply({
-            embeds: [
-                new EmbedBuilder()
-                    .setTitle("Invalid User ID")
-                    .setDescription("The User ID does not match a user.")
-                    .setColor(0xdf2c14)
-            ]
-        });
+        if(!target){
+            await interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                        .setTitle("User not found")
+                        .setDescription("This user is not found or invalid ID was provided.")
+                        .setColor(0xdf2c14)
+                ]
+            });
 
-        if(!interaction.member.permissions.has(PermissionsBitField.Flags.BanMembers))
-            return await interaction.reply({
+            return;
+        }
+
+        if(!interaction.member.permissions.has(PermissionsBitField.Flags.BanMembers)){
+            await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setTitle("Insufficient permissions")
@@ -39,6 +43,9 @@ export default {
                         .setColor(0xdf2c14)
                 ]
             });
+
+            return;
+        } 
 
         await interaction.guild.members.unban(target_id);
 

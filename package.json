@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "ts-node ./src/main.ts",
     "build": "tsc",
-    "run-build": "node ./build/main.js"
+    "clean": "tsc --build --clean",
+    "start": "node ./dist/src/main.js"
   },
   "keywords": [],
   "author": "Nethan Karerakattil",

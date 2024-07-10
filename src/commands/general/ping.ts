@@ -5,7 +5,7 @@ export default {
         .setName("ping")
         .setDescription("Pings the server"),
 
-    execute: async (interaction: ChatInputCommandInteraction, client: Client) => {
+    execute: async (interaction: ChatInputCommandInteraction<"cached">, client: Client) => {
         await interaction.reply({
             embeds: [
                 new EmbedBuilder()
