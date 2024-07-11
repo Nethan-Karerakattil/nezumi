@@ -26,6 +26,7 @@ if(!process.env.TOKEN){
 (async () => {
     let commandArr = [];
 
+    /* Command Handler */
     const commandFolders = fs.readdirSync(`${__dirname}/commands`);
     for(const folder of commandFolders){
         const files = fs.readdirSync(`${__dirname}/commands/${folder}`);
@@ -37,6 +38,7 @@ if(!process.env.TOKEN){
         }
     }
 
+    /* Registering Slash Commands */
     const rest = new REST().setToken(process.env.TOKEN!);
 
     try {
@@ -48,6 +50,7 @@ if(!process.env.TOKEN){
         console.error(err);
     }
 
+    /* Event Handler */
     const eventFiles = fs.readdirSync(`${__dirname}/events`);
     for(const file of eventFiles){
         const event = (await import(`./events/${file}`)).default
