@@ -10,6 +10,8 @@ export default {
     data: new SlashCommandBuilder()
         .setName("unban")
         .setDescription("Unbans a member")
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.BanMembers)
+        .setDMPermission(false)
 
         .addStringOption(option => option
             .setName("user-id")
@@ -33,19 +35,6 @@ export default {
 
             return;
         }
-
-        if(!interaction.member.permissions.has(PermissionsBitField.Flags.BanMembers)){
-            await interaction.reply({
-                embeds: [
-                    new EmbedBuilder()
-                        .setTitle("Insufficient permissions")
-                        .setDescription("You do not have the required permissions")
-                        .setColor(0xdf2c14)
-                ]
-            });
-
-            return;
-        } 
 
         await interaction.guild.members.unban(target_id);
 

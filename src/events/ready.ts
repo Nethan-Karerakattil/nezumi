@@ -1,4 +1,9 @@
-import { ActivityType, Client, Events, PresenceUpdateStatus } from "discord.js"
+import {
+    type Client,
+    PresenceUpdateStatus,
+    ActivityType,
+    Events
+} from "discord.js"
 
 export default {
     name: Events.ClientReady,

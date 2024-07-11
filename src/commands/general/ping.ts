@@ -1,4 +1,9 @@
-import { type ChatInputCommandInteraction, type Client, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import {
+    type ChatInputCommandInteraction,
+    type Client,
+    EmbedBuilder,
+    SlashCommandBuilder
+} from "discord.js";
 
 export default {
     data: new SlashCommandBuilder()

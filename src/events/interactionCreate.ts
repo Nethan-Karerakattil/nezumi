@@ -1,4 +1,9 @@
-import { Client, EmbedBuilder, Events, Interaction } from "discord.js"
+import {
+    type Interaction,
+    type Client,
+    EmbedBuilder,
+    Events
+} from "discord.js"
 
 export default {
     name: Events.InteractionCreate,
