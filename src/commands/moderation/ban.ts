@@ -14,7 +14,7 @@ export default {
         .setDMPermission(false)
 
         .addUserOption(option => option
-            .setName("target")
+            .setName("user")
             .setDescription("Select a member to ban")
             .setRequired(true))
 
@@ -27,8 +27,8 @@ export default {
             .setDescription("Number of days of messages to delete (Optional and must be between 0-7)")),
 
     execute: async (interaction: ChatInputCommandInteraction<"cached">, client: Client): Promise<void> => {
-        const target_user = interaction.options.getUser("target")!;
-        const target_member = interaction.options.getMember("target")!;
+        const target_user = interaction.options.getUser("user")!;
+        const target_member = interaction.options.getMember("user")!;
         const reason = interaction.options.getString("reason") ?? "Not Provided";
         const delete_msgs_days = interaction.options.getInteger("delete-messages-days");
 

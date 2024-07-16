@@ -16,6 +16,7 @@ export default {
                 new EmbedBuilder()
                     .setTitle("Pong! 🏓")
                     .setDescription(`API Latency: ${client.ws.ping}`)
+                    .setColor(0x625a57)
             ]
         })
     }

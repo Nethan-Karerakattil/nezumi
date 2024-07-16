@@ -22,6 +22,7 @@ export default {
                 new EmbedBuilder()
                     .setTitle("Here's the help menu")
                     .setDescription(menu)
+                    .setColor(0x625a57)
             ]
         })
     }

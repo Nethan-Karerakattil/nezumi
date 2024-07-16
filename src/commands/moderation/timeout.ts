@@ -18,7 +18,7 @@ export default {
             .setDescription("Gives a timeout to a user")
 
             .addUserOption(option => option
-                .setName("target")
+                .setName("user")
                 .setDescription("User to timeout")
                 .setRequired(true))
 
@@ -37,7 +37,7 @@ export default {
             .setDescription("Removes a timeout from a user")
 
             .addUserOption(option => option
-                .setName("target")
+                .setName("user")
                 .setDescription("User to remove timeout from")
                 .setRequired(true))),
 
@@ -45,8 +45,8 @@ export default {
         const subcommand = interaction.options.getSubcommand();
 
         if (subcommand === "add") {
-            const target_member = interaction.options.getMember("target")!;
-            const target_user = interaction.options.getUser("target")!;
+            const target_member = interaction.options.getMember("user")!;
+            const target_user = interaction.options.getUser("user")!;
             const duration = interaction.options.getInteger("duration-hours")!;
             const reason = interaction.options.getString("reason") ?? "Not provided";
 

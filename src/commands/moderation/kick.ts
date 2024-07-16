@@ -14,13 +14,13 @@ export default {
         .setDMPermission(false)
 
         .addUserOption(option => option
-            .setName("target")
+            .setName("user")
             .setDescription("User to kick")
             .setRequired(true)),
 
     execute: async (interaction: ChatInputCommandInteraction<"cached">, client: Client): Promise<void> => {
-        const target_user = interaction.options.getUser("target")!;
-        const target_member = interaction.options.getMember("target")!;
+        const target_user = interaction.options.getUser("user")!;
+        const target_member = interaction.options.getMember("user")!;
 
         if(!target_member.kickable){
             await interaction.reply({
