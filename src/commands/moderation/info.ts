@@ -2,8 +2,7 @@ import {
     type ChatInputCommandInteraction,
     type Client,
     EmbedBuilder,
-    SlashCommandBuilder,
-    SlashCommandUserOption
+    SlashCommandBuilder
 } from "discord.js";
 
 export default {
@@ -34,6 +33,7 @@ export default {
                 .setRequired(true))),
 
     execute: async (interaction: ChatInputCommandInteraction<"cached">, client: Client): Promise<void> => {
+
         const subcommand = interaction.options.getSubcommand();
 
         if (subcommand === "server") {

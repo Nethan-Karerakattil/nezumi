@@ -28,6 +28,8 @@ if(!process.env.TOKEN){
     let commandArr = [];
 
     /* Command Handler */
+    console.log("Loading and registering slash commands");
+
     const commandFolders = fs.readdirSync(`${__dirname}/commands`);
     for(const folder of commandFolders){
         const files = fs.readdirSync(`${__dirname}/commands/${folder}`);
@@ -52,6 +54,8 @@ if(!process.env.TOKEN){
     }
 
     /* Event Handler */
+    console.log("Loading events");
+
     const eventFiles = fs.readdirSync(`${__dirname}/events`);
     for(const file of eventFiles){
         const event = (await import(`./events/${file}`)).default
