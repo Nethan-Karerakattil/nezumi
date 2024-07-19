@@ -73,7 +73,7 @@ export default {
                 .setName("reason")
                 .setDescription("The reason for doing this (Optional)"))),
 
-    execute: async (interaction: ChatInputCommandInteraction, client: Client) => {
+    execute: async (interaction: ChatInputCommandInteraction<"cached">, client: Client) => {
         const subcommand = interaction.options.getSubcommand();
 
         if(subcommand === "set"){
@@ -86,7 +86,7 @@ export default {
             await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle(`Set cooldown for ${target_channel.name}`)
+                        .setTitle(`Set cooldown for #${target_channel.name}`)
                         .setDescription(`
                             Action By: ${interaction.user}
                             Channel Effected: <#${target_channel.id}>
@@ -109,7 +109,7 @@ export default {
             await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle(`Removed cooldown for ${target_channel.name}`)
+                        .setTitle(`Removed cooldown for #${target_channel.name}`)
                         .setDescription(`
                             Action By: ${interaction.user}
                             Channel Effected: <#${target_channel.id}>

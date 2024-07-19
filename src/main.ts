@@ -1,7 +1,12 @@
-import "dotenv/config.js";
-import { Client, GatewayIntentBits, Collection, REST, Routes } from "discord.js";
-import fs from "node:fs";
-import config from "../config.json"
+import "dotenv/config.js"
+import mongoose from "mongoose"
+import { Client, GatewayIntentBits, Collection } from "discord.js"
+import commandHandler from "./handlers/command";
+import eventHandler from "./handlers/event";
+
+if(!process.env.TOKEN || !process.env.DB_URI){
+    throw new Error("Required Environment Variables were not defined");
+}
 
 declare module "discord.js" {
     interface Client {
@@ -20,53 +25,12 @@ const client = new Client({intents: [
 client.commands = new Collection();
 client.buttons = new Collection();
 
-if(!process.env.TOKEN){
-    throw new Error("No token provided");
-}
-
 (async () => {
-    let commandArr = [];
+    console.log("Connecting to database");
+    await mongoose.connect(process.env.DB_URI!);
 
-    /* Command Handler */
-    console.log("Loading and registering slash commands");
-
-    const commandFolders = fs.readdirSync(`${__dirname}/commands`);
-    for(const folder of commandFolders){
-        const files = fs.readdirSync(`${__dirname}/commands/${folder}`);
-        for(const file of files){
-            const command = (await import(`./commands/${folder}/${file}`)).default
-
-            commandArr.push(command.data.toJSON());
-            client.commands.set(command.data.name, command);
-        }
-    }
-
-    /* Registering Slash Commands */
-    const rest = new REST().setToken(process.env.TOKEN!);
-
-    try {
-        const data = await rest.put(
-            Routes.applicationGuildCommands(config.clientId, config.guildId),
-            { body: commandArr }
-        )
-    } catch(err){
-        console.error(err);
-    }
-
-    /* Event Handler */
-    console.log("Loading events");
-
-    const eventFiles = fs.readdirSync(`${__dirname}/events`);
-    for(const file of eventFiles){
-        const event = (await import(`./events/${file}`)).default
-    
-        if(event.once){
-            client.once(event.name, (...args) => event.execute(...args, client));
-            continue;
-        }
-
-        client.on(event.name, (...args) => event.execute(...args, client));
-    }
+    await commandHandler(client);
+    await eventHandler(client);
 })();
 
 client.login(process.env.TOKEN);
