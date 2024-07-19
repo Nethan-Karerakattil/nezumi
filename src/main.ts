@@ -1,5 +1,4 @@
 import "dotenv/config.js"
-import mongoose from "mongoose"
 import { Client, GatewayIntentBits, Collection } from "discord.js"
 import commandHandler from "./handlers/command";
 import eventHandler from "./handlers/event";
@@ -26,9 +25,6 @@ client.commands = new Collection();
 client.buttons = new Collection();
 
 (async () => {
-    console.log("Connecting to database");
-    await mongoose.connect(process.env.DB_URI!);
-
     await commandHandler(client);
     await eventHandler(client);
 })();
