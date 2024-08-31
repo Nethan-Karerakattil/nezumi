@@ -21,7 +21,7 @@ export default {
             embeds: [
                 new EmbedBuilder()
                     .setTitle("Here's the help menu")
-                    .setDescription(menu)
+                    .setDescription(menu + "\nNezumi bot is in it's beta stage, it is prone to bugs. If you find any bugs, please report it at our support server -> https://discord.gg/dBx6XWgthJ")
                     .setColor(0x625a57)
             ]
         })

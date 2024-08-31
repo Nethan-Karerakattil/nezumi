@@ -32,7 +32,7 @@ export default {
         const reason = interaction.options.getString("reason") ?? "Not Provided";
         const delete_msgs_days = interaction.options.getInteger("delete-messages-days");
 
-        if(!target_member.bannable){
+        if (!target_member.bannable) {
             await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
@@ -45,7 +45,7 @@ export default {
             return;
         }
 
-        if(target_user.id === interaction.member.id){
+        if (target_user.id === interaction.member.id) {
             await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
@@ -70,15 +70,14 @@ export default {
             ]
         });
 
-        if(!delete_msgs_days){
+        if (!delete_msgs_days) {
             await target_member.ban({ reason: reason });
-            return;
+        } else {
+            await target_member.ban({
+                reason: reason,
+                deleteMessageSeconds: 60 * 60 * 7 * delete_msgs_days
+            });
         }
-
-        await target_member.ban({
-            reason: reason,
-            deleteMessageSeconds: 60 * 60 * 7 * delete_msgs_days
-        });
 
         await interaction.reply({
             embeds: [

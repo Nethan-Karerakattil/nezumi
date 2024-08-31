@@ -3,7 +3,7 @@ import { Client, GatewayIntentBits, Collection } from "discord.js"
 import commandHandler from "./handlers/command";
 import eventHandler from "./handlers/event";
 
-if(!process.env.TOKEN || !process.env.DB_URI){
+if(!process.env.TOKEN){
     throw new Error("Required Environment Variables were not defined");
 }
 

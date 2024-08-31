@@ -41,20 +41,20 @@ export default {
                     ChannelType.PublicThread,
                     ChannelType.GuildStageVoice
                 ]))
-                
+
             .addIntegerOption(option => option
                 .setName("cooldown")
                 .setDescription("The number of seconds of cooldown per user")
                 .setRequired(true))
-                
+
             .addStringOption(option => option
                 .setName("reason")
                 .setDescription("The reason for doing this (Optional)")))
-                
+
         .addSubcommand(subcommand => subcommand
             .setName("remove")
             .setDescription("Removes a cooldown from a channel")
-        
+
             .addChannelOption(option => option
                 .setName("channel")
                 .setDescription("Channel to remove the cooldown from")
@@ -68,7 +68,7 @@ export default {
                     ChannelType.PublicThread,
                     ChannelType.GuildStageVoice
                 ]))
-            
+
             .addStringOption(option => option
                 .setName("reason")
                 .setDescription("The reason for doing this (Optional)"))),
@@ -76,7 +76,7 @@ export default {
     execute: async (interaction: ChatInputCommandInteraction<"cached">, client: Client) => {
         const subcommand = interaction.options.getSubcommand();
 
-        if(subcommand === "set"){
+        if (subcommand === "set") {
             const target_channel = interaction.options.getChannel("channel")! as NewsChannel | StageChannel | TextChannel | PrivateThreadChannel | VoiceChannel | ForumChannel | MediaChannel | PublicThreadChannel;
             const cooldown = interaction.options.getInteger("cooldown")!;
             const reason = interaction.options.getString("reason") ?? "Not provided";
@@ -100,7 +100,7 @@ export default {
             return;
         }
 
-        if(subcommand === "remove"){
+        if (subcommand === "remove") {
             const target_channel = interaction.options.getChannel("channel")! as NewsChannel | StageChannel | TextChannel | PrivateThreadChannel | VoiceChannel | ForumChannel | MediaChannel | PublicThreadChannel;
             const reason = interaction.options.getString("reason") ?? "Not provided";
 

@@ -22,7 +22,7 @@ export default async function commandHandler(client: Client): Promise<void> {
 
     try {
         const data = await rest.put(
-            Routes.applicationGuildCommands(config.clientId, config.guildId),
+            Routes.applicationCommands(config.clientId),
             { body: commandArr }
         )
     } catch(err){
