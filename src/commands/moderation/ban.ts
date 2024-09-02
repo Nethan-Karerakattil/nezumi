@@ -3,7 +3,8 @@ import {
     type Client,
     SlashCommandBuilder,
     PermissionsBitField,
-    EmbedBuilder
+    EmbedBuilder,
+    Colors
 } from "discord.js";
 
 export default {
@@ -38,7 +39,7 @@ export default {
                     new EmbedBuilder()
                         .setTitle("Unable to ban")
                         .setDescription("I do not have the required permissions to ban a member")
-                        .setColor(0xdf2c14)
+                        .setColor(Colors.Red)
                 ]
             });
 
@@ -51,7 +52,7 @@ export default {
                     new EmbedBuilder()
                         .setTitle("Unable to ban")
                         .setDescription("You can't ban yourself silly!")
-                        .setColor(0xdf2c14)
+                        .setColor(Colors.Red)
                 ]
             });
 
@@ -66,7 +67,7 @@ export default {
                         Action By: ${interaction.user}
                         Reason: ${reason}
                     `)
-                    .setColor(0xdf2c14)
+                    .setColor(Colors.Red)
             ]
         });
 
@@ -88,7 +89,7 @@ export default {
                         Target: ${target_user}
                         Reason: ${reason}
                     `)
-                    .setColor(0x3ded97)
+                    .setColor(Colors.Green)
             ]
         });
     }

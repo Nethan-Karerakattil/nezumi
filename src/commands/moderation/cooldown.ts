@@ -14,7 +14,8 @@ import {
     ChannelType,
     PermissionsBitField,
     SlashCommandBuilder,
-    EmbedBuilder
+    EmbedBuilder,
+    Colors
 } from "discord.js";
 
 export default {
@@ -93,7 +94,7 @@ export default {
                             New Cooldown: ${cooldown}
                             Reason: ${reason}
                         `)
-                        .setColor(0x3ded97)
+                        .setColor(Colors.Green)
                 ]
             });
 
@@ -115,7 +116,7 @@ export default {
                             Channel Effected: <#${target_channel.id}>
                             Reason: ${reason}
                         `)
-                        .setColor(0x3ded97)
+                        .setColor(Colors.Green)
                 ]
             });
 

@@ -5,7 +5,8 @@ import {
     ActionRowBuilder,
     ButtonBuilder,
     EmbedBuilder,
-    ButtonStyle
+    ButtonStyle,
+    Colors
 } from "discord.js";
 
 export default {
@@ -19,7 +20,7 @@ export default {
                 new EmbedBuilder()
                     .setTitle("Vote for Nezumi")
                     .setDescription("Hey, voting can help us grow and reach more people! You can vote by clicking on the button below.")
-                    .setColor(0x625a57)
+                    .setColor(Colors.LuminousVividPink)
             ],
             components: [new ActionRowBuilder<ButtonBuilder>({
                 components: [

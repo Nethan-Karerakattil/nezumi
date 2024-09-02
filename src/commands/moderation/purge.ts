@@ -3,7 +3,8 @@ import {
     type Client,
     PermissionsBitField,
     SlashCommandBuilder,
-    EmbedBuilder
+    EmbedBuilder,
+    Colors
 } from "discord.js";
 
 export default {
@@ -12,7 +13,7 @@ export default {
         .setDescription("Delete multiple messages at once")
         .setDefaultMemberPermissions(PermissionsBitField.Flags.ManageChannels)
         .setDMPermission(false)
-        
+
         .addIntegerOption(option => option
             .setName("number-of-messages")
             .setDescription("Number of messages to delete")
@@ -32,7 +33,7 @@ export default {
                         Action By: ${interaction.user}
                         Deleted Messages: ${messages}
                     `)
-                    .setColor(0x3ded97)
+                    .setColor(Colors.Green)
             ]
         })
     }

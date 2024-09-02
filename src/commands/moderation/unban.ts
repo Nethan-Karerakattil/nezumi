@@ -4,6 +4,7 @@ import {
     PermissionsBitField,
     SlashCommandBuilder,
     EmbedBuilder,
+    Colors,
 } from "discord.js";
 
 export default {
@@ -23,13 +24,13 @@ export default {
         const ban_list = await interaction.guild.bans.fetch();
         const target = ban_list.find(ban => ban.user.id === target_id);
 
-        if(!target){
+        if (!target) {
             await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setTitle("User not found")
                         .setDescription("This user is not found or invalid ID was provided.")
-                        .setColor(0xdf2c14)
+                        .setColor(Colors.Red)
                 ]
             });
 
@@ -46,7 +47,7 @@ export default {
                         Action By: ${interaction.user}
                         Target: ${target.user}
                     `)
-                    .setColor(0x3ded97)
+                    .setColor(Colors.Green)
             ]
         });
     }

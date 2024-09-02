@@ -1,6 +1,7 @@
 import {
     type ChatInputCommandInteraction,
     type Client,
+    Colors,
     EmbedBuilder,
     SlashCommandBuilder
 } from "discord.js";
@@ -16,7 +17,7 @@ export default {
                 new EmbedBuilder()
                     .setTitle("Pong! 🏓")
                     .setDescription(`API Latency: ${client.ws.ping}`)
-                    .setColor(0x625a57)
+                    .setColor(Colors.Green)
             ]
         })
     }
