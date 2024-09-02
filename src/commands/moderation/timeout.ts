@@ -3,7 +3,8 @@ import {
     type ChatInputCommandInteraction,
     PermissionsBitField,
     SlashCommandBuilder,
-    EmbedBuilder
+    EmbedBuilder,
+    Colors
 } from "discord.js";
 
 export default {
@@ -56,7 +57,7 @@ export default {
                         new EmbedBuilder()
                             .setTitle("Unable to timeout")
                             .setDescription("You can't timeout yourself silly!")
-                            .setColor(0xdf2c14)
+                            .setColor(Colors.Red)
                     ]
                 });
 
@@ -69,7 +70,7 @@ export default {
                         new EmbedBuilder()
                             .setTitle("Unable to timeout")
                             .setDescription("Your role is not high enough to timeout this member")
-                            .setColor(0xdf2c14)
+                            .setColor(Colors.Red)
                     ]
                 });
 
@@ -83,7 +84,7 @@ export default {
                         new EmbedBuilder()
                             .setTitle("Unable to timeout")
                             .setDescription("My role is not high enough to timeout this member")
-                            .setColor(0xdf2c14)
+                            .setColor(Colors.Red)
                     ]
                 });
 
@@ -102,7 +103,7 @@ export default {
                                 Duration: ${duration} hr(s)    
                                 Reason: ${reason}
                             `)
-                        .setColor(0x3ded97)
+                        .setColor(Colors.Green)
                 ]
             });
 
@@ -115,7 +116,7 @@ export default {
                                 Duration: ${duration} hr(s)
                                 Reason: ${reason}
                             `)
-                        .setColor(0xdf2c14)
+                        .setColor(Colors.Red)
                 ]
             })
         }
@@ -130,7 +131,7 @@ export default {
                         new EmbedBuilder()
                             .setTitle("Unable to remove timeout")
                             .setDescription("Your role is not high enough to remove this member's timeout")
-                            .setColor(0xdf2c14)
+                            .setColor(Colors.Red)
                     ]
                 });
 
@@ -144,7 +145,7 @@ export default {
                         new EmbedBuilder()
                             .setTitle("Unable to remove timeout")
                             .setDescription("My role is not high enough to remove this member's timeout")
-                            .setColor(0xdf2c14)
+                            .setColor(Colors.Red)
                     ]
                 });
 
@@ -156,21 +157,21 @@ export default {
             await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle(`Successfully removed timeout`)
+                        .setTitle("Successfully removed timeout")
                         .setDescription(`
                                 Action By: ${interaction.user}
                                 Target: ${target_user}
                             `)
-                        .setColor(0x3ded97)
+                        .setColor(Colors.Green)
                 ]
             });
 
             await target_user.send({
                 embeds: [
                     new EmbedBuilder()
-                        .setTitle(`Your timeout was removed`)
+                        .setTitle("Your timeout was removed")
                         .setDescription(`Action By: ${interaction.user}`)
-                        .setColor(0xdf2c14)
+                        .setColor(Colors.Green)
                 ]
             })
         }

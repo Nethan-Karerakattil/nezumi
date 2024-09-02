@@ -3,7 +3,8 @@ import {
     type ChatInputCommandInteraction,
     SlashCommandBuilder,
     PermissionsBitField,
-    EmbedBuilder
+    EmbedBuilder,
+    Colors
 } from "discord.js";
 
 export default {
@@ -22,26 +23,26 @@ export default {
         const target_user = interaction.options.getUser("user")!;
         const target_member = interaction.options.getMember("user")!;
 
-        if(!target_member.kickable){
+        if (!target_member.kickable) {
             await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setTitle("Unable to kick")
                         .setDescription("I am not allowed to kick this member")
-                        .setColor(0xdf2c14)
+                        .setColor(Colors.Red)
                 ]
             });
 
             return;
         }
 
-        if(interaction.user.id == target_user.id){
+        if (interaction.user.id == target_user.id) {
             await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setTitle("Unable to kick")
                         .setDescription("You can't kick yourself silly!")
-                        .setColor(0xdf2c14)
+                        .setColor(Colors.Red)
                 ]
             });
 
@@ -52,7 +53,7 @@ export default {
                 new EmbedBuilder()
                     .setTitle(`You have been kicked from ${interaction.guild.name}`)
                     .setDescription(`Action By: ${interaction.user}`)
-                    .setColor(0xdf2c14)
+                    .setColor(Colors.Red)
             ]
         });
 
@@ -66,7 +67,7 @@ export default {
                         Action By: ${interaction.user}
                         Target: ${target_user}    
                     `)
-                    .setColor(0x3ded97)
+                    .setColor(Colors.Green)
             ]
         })
     }

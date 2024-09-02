@@ -2,7 +2,8 @@ import {
     type Interaction,
     type Client,
     EmbedBuilder,
-    Events
+    Events,
+    Colors
 } from "discord.js"
 
 export default {
@@ -10,23 +11,25 @@ export default {
     once: false,
 
     execute: async (interaction: Interaction, client: Client) => {
-        if(interaction.isChatInputCommand()){
-            if(!interaction.commandName) return;
+        if (interaction.isChatInputCommand()) {
+            if (!interaction.commandName) return;
 
             try {
                 const command = client.commands.get(interaction.commandName);
                 await command.execute(interaction, client);
-            } catch(err) {
+            } catch (err) {
                 console.error(err);
 
-                return await interaction.reply({
+                await interaction.reply({
                     embeds: [
                         new EmbedBuilder()
                             .setTitle("Error: 500")
                             .setDescription("Internal Server Error")
-                            .setColor(0xf00)
+                            .setColor(Colors.Red)
                     ]
-                })
+                });
+
+                return;
             }
         }
     }

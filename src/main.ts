@@ -3,7 +3,7 @@ import { Client, GatewayIntentBits, Collection } from "discord.js"
 import commandHandler from "./handlers/command";
 import eventHandler from "./handlers/event";
 
-if(!process.env.TOKEN){
+if (!process.env.TOKEN) {
     throw new Error("Required Environment Variables were not defined");
 }
 
@@ -14,12 +14,15 @@ declare module "discord.js" {
     }
 }
 
-const client = new Client({intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-    GatewayIntentBits.GuildPresences
-]});
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildPresences,
+        GatewayIntentBits.GuildVoiceStates
+    ]
+});
 
 client.commands = new Collection();
 client.buttons = new Collection();

@@ -2,7 +2,8 @@ import {
     type ChatInputCommandInteraction,
     type Client,
     EmbedBuilder,
-    SlashCommandBuilder
+    SlashCommandBuilder,
+    Colors
 } from "discord.js";
 
 export default {
@@ -84,7 +85,7 @@ async function subcommand_server(interaction: ChatInputCommandInteraction<"cache
                     }
                 )
                 .setFooter({ text: `Requested by: ${interaction.user.tag}` })
-                .setColor(0x625a57)
+                .setColor(Colors.LuminousVividPink)
         ]
     });
 }
@@ -123,7 +124,7 @@ async function subcommand_member(interaction: ChatInputCommandInteraction<"cache
                     }
                 )
                 .setFooter({ text: `Requested by: ${interaction.user.tag}` })
-                .setColor(0x625a57)
+                .setColor(Colors.LuminousVividPink)
         ]
     });
 }

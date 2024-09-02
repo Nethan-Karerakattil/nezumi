@@ -7,9 +7,9 @@ export default async function commandHandler(client: Client): Promise<void> {
 
     let commandArr = [];
     const commandFolders = fs.readdirSync(`${__dirname}/../commands`);
-    for(const folder of commandFolders){
+    for (const folder of commandFolders) {
         const files = fs.readdirSync(`${__dirname}/../commands/${folder}`);
-        for(const file of files){
+        for (const file of files) {
             const command = (await import(`../commands/${folder}/${file}`)).default;
 
             commandArr.push(command.data.toJSON());
@@ -22,10 +22,10 @@ export default async function commandHandler(client: Client): Promise<void> {
 
     try {
         const data = await rest.put(
-            Routes.applicationCommands(config.clientId),
+            Routes.applicationGuildCommands(config.clientId, config.guildId),
             { body: commandArr }
         )
-    } catch(err){
+    } catch (err) {
         console.error(err);
     }
 
