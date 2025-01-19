@@ -16,8 +16,12 @@
   "author": "Nethan Karerakattil",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.15.2",
-    "dotenv": "^16.4.5"
+    "@discordjs/voice": "^0.18.0",
+    "@distube/ytdl-core": "^4.15.1",
+    "discord.js": "^14.17.2",
+    "dotenv": "^16.4.7",
+    "ffmpeg-static": "^5.2.0",
+    "libsodium-wrappers": "^0.7.15"
   },
   "devDependencies": {
     "typescript": "^5.4.5"

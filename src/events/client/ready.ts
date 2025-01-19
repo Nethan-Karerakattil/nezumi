@@ -9,7 +9,7 @@ export default {
     name: Events.ClientReady,
     once: true,
 
-    execute: (client: Client) => {
+    execute: (client: Client): void => {
         client.user?.setPresence({
             activities: [{
                 name: "Nichijou",
