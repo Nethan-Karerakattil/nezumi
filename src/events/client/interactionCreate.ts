@@ -10,7 +10,7 @@ export default {
     name: Events.InteractionCreate,
     once: false,
 
-    execute: async (interaction: Interaction, client: Client) => {
+    execute: async (interaction: Interaction, client: Client): Promise<void> => {
         if (interaction.isChatInputCommand()) {
             if (!interaction.commandName) return;
 

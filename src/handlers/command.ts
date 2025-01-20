@@ -3,7 +3,7 @@ import config from "../../config.json"
 import { type Client, REST, Routes } from "discord.js"
 
 export default async function commandHandler(client: Client): Promise<void> {
-    console.log("Loading commands");
+    console.log("Loading commands...");
 
     let commandArr = [];
     const commandFolders = fs.readdirSync(`${__dirname}/../commands`);
