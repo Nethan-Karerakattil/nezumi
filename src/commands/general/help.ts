@@ -6,25 +6,34 @@ import {
     Colors
 } from "discord.js";
 
+import fs from "node:fs";
+
 export default {
     data: new SlashCommandBuilder()
         .setName("help")
         .setDescription("Shows you the help menu"),
 
     execute: async (interaction: ChatInputCommandInteraction<"cached">, client: Client): Promise<void> => {
+        const menu = new EmbedBuilder().setTitle("Here is the help menu!").setColor(Colors.Green)
+        const folders = fs.readdirSync("./src/commands");
 
-        let menu = "";
-        for (const [key, value] of client.commands) {
-            menu += "`/" + value.data.name + "`: " + value.data.description + "\n"
+        for (const folder of folders) {
+            const files = fs.readdirSync(`./src/commands/${folder}`);
+
+            let value = "";
+            for (const file of files) {
+                value += "`/" + file.replace(/\.[^/.]+$/, "") + "`\n";
+            }
+
+            menu.addFields({
+                name: folder,
+                value: value,
+                inline: true
+            })
         }
 
         await interaction.reply({
-            embeds: [
-                new EmbedBuilder()
-                    .setTitle("Here's the help menu")
-                    .setDescription(menu + "\nNezumi bot is in it's beta stage, it is prone to bugs. If you find any bugs, please report it at our support server -> https://discord.gg/dBx6XWgthJ")
-                    .setColor(Colors.LuminousVividPink)
-            ]
+            embeds: [menu]
         })
     }
 }

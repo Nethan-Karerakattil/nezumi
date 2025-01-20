@@ -1,15 +1,15 @@
 import {
     type ChatInputCommandInteraction,
     type Client,
-    Colors,
+    SlashCommandBuilder,
     EmbedBuilder,
-    SlashCommandBuilder
+    Colors
 } from "discord.js";
 
 export default {
     data: new SlashCommandBuilder()
-        .setName("disconnect")
-        .setDescription("Disconnects me from a voice chanel and deletes queue"),
+        .setName("toggle-pause")
+        .setDescription("Pauses the song that is currently playing"),
 
     execute: async (interaction: ChatInputCommandInteraction<"cached">, client: Client): Promise<void> => {
 
@@ -27,18 +27,20 @@ export default {
             return;
         }
 
-        /* Destroy connection and delete queue */
-        client.queues[interaction.guildId].connection.destroy();
-        client.queues[interaction.guildId].player.stop();
-        delete client.queues[interaction.guildId];
-
+        /* Toggle pause */
+        if (!client.queues[interaction.guildId].isPaused) {
+            client.queues[interaction.guildId].player.unpause();
+        } else {
+            client.queues[interaction.guildId].player.pause();
+        }
+        
         await interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                    .setTitle("Success")
-                    .setDescription("Deleted queue and left the voice channel")
+                    .setTitle("Success!")
+                    .setDescription("Successfully paused the player!")
                     .setColor(Colors.Green)
             ]
-        });
+        })
     }
 }

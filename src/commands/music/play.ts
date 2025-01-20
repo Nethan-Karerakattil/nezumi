@@ -60,8 +60,10 @@ export default {
 
         const url = interaction.options.getString("song-url")!;
 
-        /* Create queue if it doens't exist */
+        /* If queue doesn't exist*/
         if (!client.queues[interaction.guildId]) {
+
+            /* Create queue */
             client.queues[interaction.guildId] = {
                 connection: joinVoiceChannel({
                     channelId: interaction.member.voice.channelId,
@@ -75,6 +77,7 @@ export default {
                     }
                 }),
 
+                isPaused: false,
                 queue: []
             };
 
@@ -117,8 +120,7 @@ export default {
                         ]
                     });
 
-                    connection.destroy();
-                    delete client.queues[interaction.guildId];
+                    abort(interaction, client, connection, player); // disconnect
                     return;
                 }
 
@@ -133,6 +135,7 @@ export default {
                         ]
                     });
 
+                    abort(interaction, client, connection, player); // disconnect
                     return;
                 }
 
@@ -145,6 +148,17 @@ export default {
                     ]
                 });
             });
+
+            
+            /* When player is paused */
+            player.on(AudioPlayerStatus.Paused, () => {
+                client.queues[interaction.guildId].isPaused = true;
+            });
+
+            /* When player is playing */
+            player.on(AudioPlayerStatus.Playing, () => {
+                client.queues[interaction.guildId].isPaused = false;
+            })
 
             /* When player encounters an error */
             player.on("error", async () => {
@@ -163,7 +177,17 @@ export default {
             return;
         }
         
+        /* Client is already connected, so just push */
         client.queues[interaction.guildId].queue.push(url);
+
+        await interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle("Success!")
+                    .setDescription("Added the song to the queue")
+                    .setColor(Colors.Green)
+            ]
+        });
     }
 }
 
@@ -175,7 +199,14 @@ export default {
  * @returns success?
  */
 async function play(player: AudioPlayer, connection: VoiceConnection, url: string): Promise<boolean> {
-    player.play(createAudioResource(ytdl(url, {filter: "audioonly"})));
+    if (!ytdl.validateURL(url)) return false;
+    
+    player.play(createAudioResource(ytdl(url, {
+        filter: "audioonly",
+        quality: 'highestaudio',
+        highWaterMark: 1 << 25
+    })));
+
     connection.subscribe(player);
 
     try {
@@ -186,4 +217,20 @@ async function play(player: AudioPlayer, connection: VoiceConnection, url: strin
     }
 
     return true;
+}
+
+/**
+ * Safetly disconnects from a voice channel
+ * @param connection 
+ * @param client 
+ */
+function abort(
+    interaction: ChatInputCommandInteraction<"cached">,
+    client: Client,
+    connection: VoiceConnection,
+    player: AudioPlayer
+): void {
+    connection.destroy();
+    player.stop();
+    delete client.queues[interaction.guildId];
 }

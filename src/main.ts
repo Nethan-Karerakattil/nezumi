@@ -11,6 +11,7 @@ if (!process.env.TOKEN) {
 interface Queue {
     connection: VoiceConnection,
     player: AudioPlayer,
+    isPaused: boolean
     queue: Array<string>
 }
 
